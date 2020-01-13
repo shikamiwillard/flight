@@ -13,7 +13,7 @@ class CounterModel extends Model {
   }
 
   void decrement() {
-    _count++;
+    _count--;
     notifyListeners();
   }
 }
@@ -38,7 +38,33 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text('Counter App'),
       ),
-
+      body: Column(
+        children: <Widget>[
+          Text(
+            'Counter:',
+            style: TextStyle(fontSize: 20.0),
+          ),
+          ScopedModelDescendant<CounterModel>(
+            builder: (context, child, model) => Text(
+              model.count.toString(),
+            ),
+          )
+        ],
+      ),
+      floatingActionButton: ScopedModelDescendant<CounterModel>(
+        builder: (context, child, model) => ButtonBar(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: model.increment,
+            ),
+            IconButton(
+              icon: Icon(Icons.minimize),
+              onPressed: model.decrement,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
